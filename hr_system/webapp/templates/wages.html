@@ -7,40 +7,40 @@
         <div class="col-2">
             <ul class="nav flex-column mt-5">
               <li class="nav-item">
-                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=01">Январь</a>
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:wage_list' %}?date__month=01">Январь</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=02">Февраль</a>
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:wage_list' %}?date__month=02">Февраль</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=03">Март</a>
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:wage_list' %}?date__month=03">Март</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=04">Апрель</a>
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:wage_list' %}?date__month=04">Апрель</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=05">Май</a>
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:wage_list' %}?date__month=05">Май</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=06">Июнь</a>
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:wage_list' %}?date__month=06">Июнь</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=07">Июль</a>
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:wage_list' %}?date__month=07">Июль</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=08">Август</a>
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:wage_list' %}?date__month=08">Август</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=09">Сентябрь</a>
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:wage_list' %}?date__month=09">Сентябрь</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=10">Октябрь</a>
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:wage_list' %}?date__month=10">Октябрь</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=11">Ноябрь</a>
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:wage_list' %}?date__month=11">Ноябрь</a>
               </li>
               <li class="nav-item mt-2">
-                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=12">Декабрь</a>
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:wage_list' %}?date__month=12">Декабрь</a>
               </li>
             </ul>
         </div>
@@ -158,7 +158,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'webapp:salaries' %}",
+                    url: "{% url 'webapp:wage_list' %}",
                     dataType: 'json',
                     data: data,
                     success: function (data) {

@@ -54,7 +54,7 @@
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ employee.name }} {{ employee.surname }} {{ employee.patronymic }}</td>
-                        <td>{{ employee.position }}</td>
+                        <td>{{ employee.get_position_display }}</td>
                         <td>{{ employee.email }}</td>
                         <td>{{ employee.corporate_email }}</td>
                         <td>{{ employee.phone }}</td>
