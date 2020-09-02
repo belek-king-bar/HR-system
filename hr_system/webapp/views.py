@@ -1,10 +1,11 @@
 from django.shortcuts import render, reverse
 from webapp.models import EmployeeData, Wage
 from django.views.generic import ListView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from webapp.forms import EmployeeDataForm, WageForm
 from django.http import HttpResponseRedirect, JsonResponse
 from datetime import datetime
+from django.contrib.auth.models import Group
 
 
 class EmployeeListView(LoginRequiredMixin, ListView):
@@ -40,6 +41,8 @@ class EmployeeDataCreateView(LoginRequiredMixin, CreateView):
             is_manager = request.POST.get('is_manager')
             if is_manager == 'on':
                 is_manager = True
+                group = Group.objects.get(name='Manager')
+                request.user.groups.add(group)
             else:
                 is_manager = False
             EmployeeData.objects.create(
@@ -59,9 +62,11 @@ class EmployeeDataCreateView(LoginRequiredMixin, CreateView):
             return HttpResponseRedirect(success_url)
 
 
-class WagesView(LoginRequiredMixin, ListView):
+class WagesView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Wage
     template_name = 'wages.html'
+    permission_required = 'webapp.view_wage'
+    permission_denied_message = 'Данный пользователь не имеет доступа к этой странице'
 
     def get(self, request, *args, **kwargs):
         date_month = self.request.GET.get('date__month')

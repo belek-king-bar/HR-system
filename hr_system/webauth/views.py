@@ -4,7 +4,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.mail import EmailMessage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -16,7 +16,7 @@ def signup(request):
     if request.method == 'POST':
         form = EmployeeCreationForm(request.POST)
         email = request.POST.get('email')
-        if form.is_valid():
+        if form.is_valid() and email.endswith('@sunrisestudio.pro'):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
@@ -46,7 +46,9 @@ def activate(request, uidb64, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
+        group = Group.objects.get(name='Employee')
         user.is_active = True
+        user.groups.add(group)
         user.save()
         login(request, user)
         return redirect('webapp:employee_data_create')
