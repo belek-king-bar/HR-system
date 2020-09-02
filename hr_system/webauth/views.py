@@ -49,6 +49,6 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return redirect('login')
+        return redirect('webapp:employee_data_create')
     else:
         return HttpResponse('Activation link is invalid!')

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Заполнение данных сотрудника{% endblock %}
+{% block content %}
+    <h1 class="mt-4 mb-4 text-center">Введи свои данные</h1>
+    <form action="{% url 'webapp:employee_data_create' %}" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-4">
+              <input type="text" name="name" class="form-control" maxlength="200" required id="id_name"
+                     placeholder="Имя">
+            </div>
+            <div class="form-group col-md-4">
+              <input type="text" name="surname" class="form-control" required id="id_surname"
+                     placeholder="Фамилия" maxlength="200">
+            </div>
+            <div class="form-group col-md-4">
+              <input type="text" name="patronymic" maxlength="200" class="form-control" id="id_patronymic"
+                     placeholder="Отчество">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" name="date_of_birth" class="form-control" required id="id_date_of_birth"
+                     placeholder="Дата рождения  -  ГГ-ММ-ДД">
+            </div>
+            <div class="form-group col-md-4">
+                <select name="position" class="form-control" id="id_position">
+                <option selected value="trainee">Стажер</option>
+                <option value="developer">Разработчик</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <input type="text" name="phone" maxlength="20" class="form-control" required id="id_phone"
+                       placeholder="Номер телефона">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="email" name="email" class="form-control" required id="id_email"
+                     placeholder="Личный email" maxlength="254">
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" name="gitlab_account" maxlength="200" class="form-control"
+                       required id="id_gitlab_account" placeholder="Gitlab аккаунт">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+              <input name="is_manager" class="form-check-input" type="checkbox" id="id_is_manager">
+              <label class="form-check-label" for="id_is_manager">
+                Менеджер
+              </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+{% endblock %}
