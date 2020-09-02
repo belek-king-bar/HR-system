@@ -1,7 +1,7 @@
 from django.contrib.auth.admin import UserAdmin
 from webauth.forms import EmployeeCreationForm, EmployeeChangeForm
 from django.contrib import admin
-from.models import Employee, EmployeeData
+from.models import Employee, EmployeeData, Wage
 
 
 class CustomUserAdmin(UserAdmin):
@@ -29,5 +29,11 @@ class EmployeeDataAdmin(admin.ModelAdmin):
     search_fields = ['name', 'id']
 
 
+class WageAdmin(admin.ModelAdmin):
+    list_display = ['employee', 'salary', 'date']
+    search_fields = ['employee']
+
+
 admin.site.register(Employee, CustomUserAdmin)
 admin.site.register(EmployeeData, EmployeeDataAdmin)
+admin.site.register(Wage, WageAdmin)

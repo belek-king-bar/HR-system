@@ -54,3 +54,16 @@ class EmployeeData(models.Model):
 
     def __str__(self):
         return "%s %s - %s" % (self.name, self.surname, self.position)
+
+
+class Wage(models.Model):
+    employee = models.OneToOneField(Employee, on_delete=models.CASCADE, related_name='wage', verbose_name='Сотрудник')
+    salary = models.IntegerField(default=0, verbose_name='Оклад')
+    prepaid = models.IntegerField(default=0, verbose_name='Аванс')
+    prize = models.IntegerField(default=0, verbose_name='Премия')
+    issued = models.CharField(max_length=30, default='Нет', verbose_name='Выдано?')
+    date = models.DateField(verbose_name='Месяц')
+
+    def __str__(self):
+        return "%s %s - %s" % (self.employee, self.salary, self.date)
+
