@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('webauth.urls')),
     path('', include('django.contrib.auth.urls')),
+    path('', include('webapp.urls', 'webapp')),
 ]

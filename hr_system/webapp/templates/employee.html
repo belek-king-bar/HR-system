@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Сотрудники{% endblock %}
+{% block menu %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-2">
+            <ul class="nav flex-column mt-5">
+              <li class="nav-item">
+                <a class="nav-link p-0 mt-2 active" href="{% url 'webapp:employee_list' %}">Все сотрудники</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?is_active=True">Активные</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?is_fired=True">Уволенные</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?position=backend">Бэкенд</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?position=frontend">Фронтенд</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?position=pm">ПМ</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?position=android">Андроид</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:employee_list' %}?position=ios">IOS</a>
+              </li>
+            </ul>
+        </div>
+        <div class="col-10">
+            {% if request.user.data.is_manager %}
+                <a href="{% url 'webauth:signup' %}"><button type="button"
+                                                         class="btn btn-danger mt-5">Добавить сотрудника</button></a>
+            {% endif %}
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">ФИО</th>
+                        <th scope="col">Позиция</th>
+                        <th scope="col">Личный email</th>
+                        <th scope="col">Корпоративный email</th>
+                        <th scope="col">Номер телефона</th>
+                        <th scope="col">Дата рождения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for employee in employeedata_list %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ employee.name }} {{ employee.surname }} {{ employee.patronymic }}</td>
+                        <td>{{ employee.position }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.corporate_email }}</td>
+                        <td>{{ employee.phone }}</td>
+                        <td>{{ employee.date_of_birth }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
