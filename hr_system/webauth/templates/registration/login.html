@@ -1,0 +1,20 @@
+{% extends 'base_auth.html' %}
+{% block title %}Вход{% endblock %}
+{% block content %}
+        <h2 style="text-align: center;">Вход</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group mt-3">
+                <label for="id_username">Email</label>
+                <input type="text" class="form-control" name="username" autocomplete="username"
+                           required id="id_username" maxlength="254">
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" autocomplete="current-password" class="form-control"
+                           required id="id_password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+{% endblock %}

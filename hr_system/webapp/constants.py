@@ -1,0 +1,10 @@
+BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+HOST = 'smtp.gmail.com'
+HOST_USER = 'belektolubaev@gmail.com'
+HOST_PASSWORD = '7325real2342'
+PORT = 587
+DATABASE_NAME = 'hr_system'
+DATABASE_USER = 'belek'
+DATABASE_PASSWORD = '7325real2342'
+DATABASE_HOST = 'localhost'
+DATABASE_PORT = '5432'

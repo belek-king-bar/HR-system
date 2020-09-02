@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
+from webapp.constants import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'hr_system.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
+        'PORT': DATABASE_PORT,
     }
 }
 
@@ -115,6 +121,20 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'webapp.Employee'
+
+EMAIL_BACKEND = BACKEND
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = HOST
+EMAIL_HOST_USER = HOST_USER
+EMAIL_HOST_PASSWORD = HOST_PASSWORD
+EMAIL_PORT = PORT
+
+LOGIN_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'login'
+
+LOGIN_URL = reverse_lazy('login')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
