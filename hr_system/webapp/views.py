@@ -1,9 +1,10 @@
 from django.shortcuts import render, reverse
-from webapp.models import EmployeeData
+from webapp.models import EmployeeData, Wage
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from webapp.forms import EmployeeDataForm
-from django.http import HttpResponseRedirect
+from webapp.forms import EmployeeDataForm, WageForm
+from django.http import HttpResponseRedirect, JsonResponse
+from datetime import datetime
 
 
 class EmployeeListView(LoginRequiredMixin, ListView):
@@ -56,3 +57,29 @@ class EmployeeDataCreateView(LoginRequiredMixin, CreateView):
                 is_confirmed=True)
             success_url = self.get_success_url()
             return HttpResponseRedirect(success_url)
+
+
+class WagesView(LoginRequiredMixin, ListView):
+    model = Wage
+    template_name = 'wages.html'
+
+    def get(self, request, *args, **kwargs):
+        date_month = self.request.GET.get('date__month')
+        if date_month:
+            wage_list = Wage.objects.filter(date__month=date_month)
+        else:
+            wage_list = Wage.objects.filter(date__month=datetime.now().month)
+        return render(request, 'wages.html', context={'wage_list': wage_list})
+
+    def post(self, *args, **kwargs):
+        form = WageForm(self.request.POST)
+        if form.is_valid():
+            wage_id = self.request.POST.get('id')
+            wage = Wage.objects.get(pk=wage_id)
+            wage.salary = self.request.POST.get('salary')
+            wage.prepaid = self.request.POST.get('prepaid')
+            wage.prize = self.request.POST.get('prize')
+            wage.issued = self.request.POST.get('issued')
+            wage.save()
+            response_wage = [{'wage': wage.salary}]
+            return JsonResponse(response_wage, safe=False)

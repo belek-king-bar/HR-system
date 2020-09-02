@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}Сотрудники{% endblock %}
+{% block menu %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-2">
+            <ul class="nav flex-column mt-5">
+              <li class="nav-item">
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=01">Январь</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=02">Февраль</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-warning" href="{% url 'webapp:salaries' %}?date__month=03">Март</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=04">Апрель</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=05">Май</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-success" href="{% url 'webapp:salaries' %}?date__month=06">Июнь</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=07">Июль</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=08">Август</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2 text-danger" href="{% url 'webapp:salaries' %}?date__month=09">Сентябрь</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=10">Октябрь</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=11">Ноябрь</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link p-0 mt-2" href="{% url 'webapp:salaries' %}?date__month=12">Декабрь</a>
+              </li>
+            </ul>
+        </div>
+        <div class="col-10">
+            <table class="table mt-4 w-100">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ФИО</th>
+                        <th scope="col">Оклад</th>
+                        <th scope="col">Аванс</th>
+                        <th scope="col">Премия</th>
+                        <th scope="col">Выдано</th>
+                        <th scope="col">Остаток</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    {% for wage in wage_list %}
+                        <tr>
+                            <td class="wage_id" hidden>{{ wage.pk }}</td>
+                            <td>{{ wage.employee.data.name }}</td>
+                            <td><input id="wage_salary_{{ forloop.counter }}" size="10" type="text" name="name"
+                                       class='border-0 target wage_salary'
+                                       value="{{ wage.salary }}"></td>
+                            <td><input id="wage_prepaid_{{ forloop.counter }}" size="10" type="text" name="prepaid"
+                                       class='border-0 target wage_prepaid'
+                                       value="{{ wage.prepaid }}"></td>
+                            <td><input id="wage_prize_{{ forloop.counter }}" size="10" type="text" name="prize"
+                                       class='border-0 target wage_prize'
+                                       value="{{ wage.prize }}"></td>
+                            <td><input id="wage_issued_{{ forloop.counter }}" size="10" type="text" name="issued"
+                                       class='border-0 target wage_issued'
+                                       value="{{ wage.issued }}"></td>
+                            <td id="remainder_{{ forloop.counter }}"></td>
+                        </tr>
+                    {% endfor %}
+                </form>
+                </tbody>
+                <tfoot>
+                    <tr class="bg-info">
+                        <td>Итого</td>
+                        <td id="sum_salary"></td>
+                        <td id="sum_prepaid"></td>
+                        <td id="sum_prize"></td>
+                        <td id="sum_issued"></td>
+                        <td id="sum_remainder"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+
+        let count = {{ wage_list.count }};
+        let sum_salary = 0;
+        let sum_prepaid = 0;
+        let sum_prize = 0;
+        let sum_remainder = 0;
+        let sum_issued = 'Да';
+
+        for(let i = 1; i<=count; i++) {
+
+            let salary = parseInt(document.getElementById('wage_salary_' + i).value);
+            let prepaid = parseInt(document.getElementById('wage_prepaid_' + i).value);
+            let prize = parseInt(document.getElementById('wage_prize_' + i).value);
+            let issued = document.getElementById('wage_issued_' + i).value;
+
+            if (issued == "Нет") sum_issued = 'Нет';
+            if (isNaN(salary) == true) salary = 0;
+            if (isNaN(prepaid) == true) prepaid = 0;
+            if (isNaN(prize) == true) prize = 0;
+
+            sum_salary = sum_salary + salary;
+            sum_prepaid = sum_prepaid + prepaid;
+            sum_prize = sum_prize + prize;
+
+            let remainder = (salary + prize) - prepaid;
+            document.getElementById('remainder_' + i).innerHTML = remainder;
+
+            sum_remainder = sum_remainder + remainder;
+        }
+
+        document.getElementById('sum_salary').innerHTML = sum_salary;
+        document.getElementById('sum_prepaid').innerHTML = sum_prepaid;
+        document.getElementById('sum_prize').innerHTML = sum_prize;
+        document.getElementById('sum_issued').innerHTML = sum_issued;
+        document.getElementById('sum_remainder').innerHTML = sum_remainder;
+
+    </script>
+    <script>
+
+        $(document).ready(function () {
+
+            $( ".target" ).change(function (e) {
+
+                e.preventDefault();
+                let wage_salary = document.getElementsByClassName('wage_salary')[0].value;
+                let wage_id = document.getElementsByClassName('wage_id')[0].innerText;
+                let wage_prepaid = document.getElementsByClassName('wage_prepaid')[0].value;
+                let wage_prize = document.getElementsByClassName('wage_prize')[0].value;
+                let wage_issued = document.getElementsByClassName('wage_issued')[0].value;
+                let csrftoken = $('input[name=csrfmiddlewaretoken]').attr('value');
+
+                data = {
+                        id: wage_id,
+                        salary: wage_salary,
+                        prepaid: wage_prepaid,
+                        prize: wage_prize,
+                        issued: wage_issued,
+                        csrfmiddlewaretoken: csrftoken
+                    };
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'webapp:salaries' %}",
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        console.log(data[0]['wage_salary']);
+                    }
+                })
+            });
+        });
+    </script>
+{% endblock %}
